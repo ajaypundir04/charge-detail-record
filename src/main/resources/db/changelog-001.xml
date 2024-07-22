@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Create the chargeDetailRecords collection with validation -->
+    <changeSet id="1" author="cdr-app">
+        <mongodb:createCollection collectionName="chargeDetailRecords">
+            <mongodb:options>
+                {
+                validator: {
+                $jsonSchema: {
+                bsonType: "object",
+                required: ["sessionId", "vehicleId", "startTime", "endTime", "totalCost"],
+                properties: {
+                sessionId: {
+                bsonType: "string",
+                description: "Session identification"
+                },
+                vehicleId: {
+                bsonType: "string",
+                description: "Vehicle identification"
+                },
+                startTime: {
+                bsonType: "date",
+                description: "Start time"
+                },
+                endTime: {
+                bsonType: "date",
+                description: "End time"
+                },
+                totalCost: {
+                bsonType: "double",
+                description: "Total cost"
+                }
+                }
+                }
+                },
+                validationAction: "warn",
+                validationLevel: "strict"
+                }
+            </mongodb:options>
+        </mongodb:createCollection>
+    </changeSet>
+
+    <!-- Create index on vehicleId -->
+    <changeSet id="2" author="cdr-app">
+        <mongodb:createIndex collectionName="chargeDetailRecords">
+            <mongodb:keys>
+                { vehicleId: 1 }
+            </mongodb:keys>
+            <mongodb:options>
+                { name: "vehicleId_index" }
+            </mongodb:options>
+        </mongodb:createIndex>
+    </changeSet>
+
+    <!-- Create index on startTime -->
+    <changeSet id="3" author="cdr-app">
+        <mongodb:createIndex collectionName="chargeDetailRecords">
+            <mongodb:keys>
+                { startTime: 1 }
+            </mongodb:keys>
+            <mongodb:options>
+                { name: "startTime_index" }
+            </mongodb:options>
+        </mongodb:createIndex>
+    </changeSet>
+
+    <!-- Create index on endTime -->
+    <changeSet id="4" author="cdr-app">
+        <mongodb:createIndex collectionName="chargeDetailRecords">
+            <mongodb:keys>
+                { endTime: 1 }
+            </mongodb:keys>
+            <mongodb:options>
+                { name: "endTime_index" }
+            </mongodb:options>
+        </mongodb:createIndex>
+    </changeSet>
+
+</databaseChangeLog>
