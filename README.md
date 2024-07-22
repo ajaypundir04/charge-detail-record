@@ -55,6 +55,7 @@ The Charge Detail Record (CDR) Service is designed to manage and retrieve charge
     ```bash
     docker-compose up 
     ```
+3. swagger is exposed at ``` http://localhost:8080/swagger-ui/index.html ```
 
 The application will be accessible at `http://localhost:8080`.
 
